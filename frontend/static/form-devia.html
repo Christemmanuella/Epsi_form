@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire DEVIA - EPSI/WIS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Formulaire DEVIA</h2>
+        <div id="errorAlert" class="alert alert-danger" style="display: none;" role="alert"></div>
+        <form id="deviaForm">
+            <!-- Informations de base -->
+            <div class="mb-3">
+                <label for="idCandidat" class="form-label">ID Candidat (IGOR)</label>
+                <input type="text" class="form-control" id="idCandidat" required>
+            </div>
+            <div class="mb-3">
+                <label for="identifiantCandidat" class="form-label">Identifiant candidat</label>
+                <input type="text" class="form-control" id="identifiantCandidat" required>
+            </div>
+            <div class="mb-3">
+                <label for="campus" class="form-label">Campus</label>
+                <select class="form-control" id="campus" required>
+                    <option value="" disabled selected>Sélectionnez un campus</option>
+                    <option value="Paris">Paris</option>
+                    <option value="Lyon">Lyon</option>
+                    <option value="Bordeaux">Bordeaux</option>
+                    <option value="Nantes">Nantes</option>
+                    <option value="Toulouse">Toulouse</option>
+                    <option value="Lille">Lille</option>
+                    <option value="Montpellier">Montpellier</option>
+                    <option value="Rennes">Rennes</option>
+                    <option value="Grenoble">Grenoble</option>
+                    <option value="Aix-en-Provence">Aix-en-Provence</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="civilite" class="form-label">Civilité</label>
+                <select class="form-control" id="civilite" required>
+                    <option value="Monsieur">Monsieur</option>
+                    <option value="Madame">Madame</option>
+                    <option value="Autre">Autre</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom de naissance</label>
+                <input type="text" class="form-control" id="nom" required>
+            </div>
+            <div class="mb-3">
+                <label for="prenom" class="form-label">Prénom</label>
+                <input type="text" class="form-control" id="prenom" required>
+            </div>
+            <div class="mb-3">
+                <label for="dateNaissance" class="form-label">Date de naissance</label>
+                <input type="date" class="form-control" id="dateNaissance" required>
+            </div>
+            <div class="mb-3">
+                <label for="codePostalNaissance" class="form-label">Code postal ville de naissance</label>
+                <input type="text" class="form-control" id="codePostalNaissance" required>
+            </div>
+            <div class="mb-3">
+                <label for="lieuNaissance" class="form-label">Lieu de naissance (Ville)</label>
+                <input type="text" class="form-control" id="lieuNaissance" required>
+            </div>
+            <div class="mb-3">
+                <label for="paysNaissance" class="form-label">Pays de naissance</label>
+                <input type="text" class="form-control" id="paysNaissance" required>
+            </div>
+            <div class="mb-3">
+                <label for="nationalite" class="form-label">Nationalité</label>
+                <input type="text" class="form-control" id="nationalite" required>
+            </div>
+            <!-- Formation -->
+            <div class="mb-3">
+                <label for="dernierDiplome" class="form-label">Intitulé du dernier diplôme obtenu</label>
+                <input type="text" class="form-control" id="dernierDiplome" required>
+            </div>
+            <div class="mb-3">
+                <label for="niveauDiplome" class="form-label">Niveau du dernier diplôme obtenu</label>
+                <input type="text" class="form-control" id="niveauDiplome" required>
+            </div>
+            <div class="mb-3">
+                <label for="anneeDiplome" class="form-label">Année d'obtention du dernier diplôme</label>
+                <input type="number" class="form-control" id="anneeDiplome" required min="1900" max="2025">
+            </div>
+            <div class="mb-3">
+                <label for="decisionJury" class="form-label">Décision du jury</label>
+                <select class="form-control" id="decisionJury" required>
+                    <option value="" disabled selected>Sélectionnez une décision</option>
+                    <option value="Admis">Admis</option>
+                    <option value="Refusé">Refusé</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="anneeInscription" class="form-label">Année de première inscription dans l'école</label>
+                <input type="number" class="form-control" id="anneeInscription" required min="1900" max="2025">
+            </div>
+            <div class="mb-3">
+                <label for="voieAcces" class="form-label">Voie d'accès</label>
+                <select class="form-control" id="voieAcces" required>
+                    <option value="formation_initiale_hors_alternance">Formation initiale hors alternance</option>
+                    <option value="formation_continue_hors_alternance">Formation continue hors alternance</option>
+                    <option value="contrat_apprentissage">Contrat d'apprentissage</option>
+                    <option value="contrat_professionnalisation">Contrat de professionnalisation</option>
+                    <option value="candidat_libre">Candidat libre</option>
+                </select>
+            </div>
+            <!-- Situation et expérience -->
+            <div class="mb-3">
+                <label for="situationAvantCursus" class="form-label">Situation avant le cursus</label>
+                <select class="form-control" id="situationAvantCursus" required>
+                    <option value="actif_occupe_hors_alternance">Actif occupé hors alternance</option>
+                    <option value="recherche_emploi">En recherche d'emploi</option>
+                    <option value="en_formation">En formation</option>
+                    <option value="inactif">Inactif</option>
+                </select>
+            </div>
+            <div id="experienceFields" style="display: none;">
+                <div class="mb-3">
+                    <label for="dernierMetier" class="form-label">Dernier métier exercé avant le cursus certifiant</label>
+                    <input type="text" class="form-control" id="dernierMetier">
+                </div>
+                <div class="mb-3">
+                    <label for="nomEntreprise" class="form-label">Nom de l'entreprise</label>
+                    <input type="text" class="form-control" id="nomEntreprise">
+                </div>
+                <div class="mb-3">
+                    <label for="dureeExperience" class="form-label">Durée de l'expérience professionnelle (en années)</label>
+                    <input type="number" class="form-control" id="dureeExperience" min="0">
+                </div>
+            </div>
+            <!-- Coordonnées -->
+            <div class="mb-3">
+                <label for="telephone" class="form-label">Téléphone portable personnel</label>
+                <input type="tel" class="form-control" id="telephone" required pattern="[0-9]{10}" title="Entrez un numéro de téléphone à 10 chiffres">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Adresse mail personnelle</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Soumettre</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById("situationAvantCursus").addEventListener("change", function() {
+            const experienceFields = document.getElementById("experienceFields");
+            if (this.value === "actif_occupe_hors_alternance") {
+                experienceFields.style.display = "block";
+                document.getElementById("dernierMetier").required = true;
+                document.getElementById("nomEntreprise").required = true;
+                document.getElementById("dureeExperience").required = true;
+            } else {
+                experienceFields.style.display = "none";
+                document.getElementById("dernierMetier").required = false;
+                document.getElementById("nomEntreprise").required = false;
+                document.getElementById("dureeExperience").required = false;
+            }
+        });
+
+        document.getElementById("deviaForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const errorAlert = document.getElementById("errorAlert");
+            errorAlert.style.display = "none";
+            errorAlert.textContent = "";
+
+            const formData = {
+                id_candidat: document.getElementById("idCandidat").value.trim(),
+                identifiant_candidat: document.getElementById("identifiantCandidat").value.trim(),
+                campus: document.getElementById("campus").value,
+                civilite: document.getElementById("civilite").value,
+                nom: document.getElementById("nom").value.trim(),
+                prenom: document.getElementById("prenom").value.trim(),
+                date_naissance: document.getElementById("dateNaissance").value,
+                code_postal_naissance: document.getElementById("codePostalNaissance").value.trim(),
+                lieu_naissance: document.getElementById("lieuNaissance").value.trim(),
+                pays_naissance: document.getElementById("paysNaissance").value.trim(),
+                nationalite: document.getElementById("nationalite").value.trim(),
+                dernier_diplome: document.getElementById("dernierDiplome").value.trim(),
+                niveau_diplome: document.getElementById("niveauDiplome").value.trim(),
+                annee_diplome: parseInt(document.getElementById("anneeDiplome").value),
+                decision_jury: document.getElementById("decisionJury").value,
+                annee_inscription: parseInt(document.getElementById("anneeInscription").value),
+                voie_acces: document.getElementById("voieAcces").value,
+                situation_avant_cursus: document.getElementById("situationAvantCursus").value,
+                dernier_metier: document.getElementById("dernierMetier").value.trim() || null,
+                nom_entreprise: document.getElementById("nomEntreprise").value.trim() || null,
+                duree_experience: document.getElementById("dureeExperience").value ? parseInt(document.getElementById("dureeExperience").value) : null,
+                tel_mobile: document.getElementById("telephone").value,
+                email: document.getElementById("email").value.trim()
+            };
+
+            // Validation des champs numériques
+            if (isNaN(formData.annee_diplome) || formData.annee_diplome < 1900 || formData.annee_diplome > 2025) {
+                errorAlert.textContent = "L'année du diplôme doit être un nombre valide entre 1900 et 2025.";
+                errorAlert.style.display = "block";
+                return;
+            }
+            if (isNaN(formData.annee_inscription) || formData.annee_inscription < 1900 || formData.annee_inscription > 2025) {
+                errorAlert.textContent = "L'année d'inscription doit être un nombre valide entre 1900 et 2025.";
+                errorAlert.style.display = "block";
+                return;
+            }
+            if (formData.duree_experience !== null && (isNaN(formData.duree_experience) || formData.duree_experience < 0)) {
+                errorAlert.textContent = "La durée d'expérience doit être un nombre valide et positif.";
+                errorAlert.style.display = "block";
+                return;
+            }
+
+            console.log("Données envoyées à /submit-devia :", formData);
+            try {
+                const response = await fetch("/submit-devia", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(formData)
+                });
+                const data = await response.json();
+                console.log("Réponse de /submit-devia :", response.status, data);
+                if (response.ok) {
+                    alert(data.message);
+                    window.location.href = data.redirect;
+                } else {
+                    errorAlert.textContent = "Erreur : " + data.detail;
+                    errorAlert.style.display = "block";
+                }
+            } catch (err) {
+                console.error("Erreur réseau ou CORS :", err);
+                errorAlert.textContent = "Erreur lors de la soumission : " + err.message;
+                errorAlert.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
