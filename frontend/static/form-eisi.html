@@ -8,21 +8,46 @@
     <style>
         .alert { display: none; }
         #experienceFields { display: none; }
+        .text-danger {
+            display: none;
+            color: #dc3545 !important;
+            font-size: 0.875rem !important;
+            margin-top: 0.25rem !important;
+            line-height: 1.2 !important;
+        }
+        #eisiForm .text-danger.visible {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 1000 !important;
+            min-height: 1rem !important;
+            height: auto !important;
+            overflow: visible !important;
+            background-color: rgba(255, 0, 0, 0.1) !important;
+        }
+        #eisiForm .mb-3 {
+            overflow: visible !important;
+            height: auto !important;
+            min-height: 2rem !important;
+        }
     </style>
 </head>
 <body>
     <div class="container mt-5">
         <h2>Formulaire EISI</h2>
         <div id="errorAlert" class="alert alert-danger" role="alert"></div>
-        <form id="eisiForm">
+        <form id="eisiForm" novalidate>
             <!-- Informations de base -->
             <div class="mb-3">
                 <label for="id_candidat" class="form-label">ID Candidat (IGOR)</label>
                 <input type="text" class="form-control" id="id_candidat" required>
+                <div id="idCandidatError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="identifiant_candidat" class="form-label">Identifiant candidat</label>
                 <input type="text" class="form-control" id="identifiant_candidat" required>
+                <div id="identifiantCandidatError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="campus" class="form-label">Campus</label>
@@ -37,6 +62,7 @@
                     <option value="Auxerre">Auxerre</option>
                     <option value="Lille">Lille</option>
                 </select>
+                <div id="campusError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="civilite" class="form-label">Civilité</label>
@@ -45,47 +71,58 @@
                     <option value="Madame">Madame</option>
                     <option value="Autre">Autre</option>
                 </select>
+                <div id="civiliteError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="nom" class="form-label">Nom de naissance</label>
                 <input type="text" class="form-control" id="nom" required>
+                <div id="nomError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="prenom" class="form-label">Prénom</label>
                 <input type="text" class="form-control" id="prenom" required>
+                <div id="prenomError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="date_naissance" class="form-label">Date de naissance</label>
                 <input type="date" class="form-control" id="date_naissance" required>
+                <div id="dateNaissanceError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="code_postal_naissance" class="form-label">Code postal ville de naissance</label>
                 <input type="text" class="form-control" id="code_postal_naissance" required>
+                <div id="codePostalNaissanceError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="lieu_naissance" class="form-label">Lieu de naissance (Ville)</label>
                 <input type="text" class="form-control" id="lieu_naissance" required>
+                <div id="lieuNaissanceError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="pays_naissance" class="form-label">Pays de naissance</label>
                 <input type="text" class="form-control" id="pays_naissance" required>
+                <div id="paysNaissanceError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="nationalite" class="form-label">Nationalité</label>
                 <input type="text" class="form-control" id="nationalite" required>
+                <div id="nationaliteError" class="text-danger"></div>
             </div>
             <!-- Formation -->
             <div class="mb-3">
                 <label for="dernier_diplome" class="form-label">Intitulé du dernier diplôme obtenu</label>
                 <input type="text" class="form-control" id="dernier_diplome" required>
+                <div id="dernierDiplomeError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="niveau_diplome" class="form-label">Niveau du dernier diplôme obtenu</label>
                 <input type="text" class="form-control" id="niveau_diplome" required>
+                <div id="niveauDiplomeError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="annee_diplome" class="form-label">Année d'obtention du dernier diplôme</label>
                 <input type="number" class="form-control" id="annee_diplome" required min="1900" max="2025">
+                <div id="anneeDiplomeError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="decision_jury" class="form-label">Décision du jury</label>
@@ -94,10 +131,12 @@
                     <option value="Admis">Admis</option>
                     <option value="Refusé">Refusé</option>
                 </select>
+                <div id="decisionJuryError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="annee_inscription" class="form-label">Année de première inscription dans l'école</label>
                 <input type="number" class="form-control" id="annee_inscription" required min="1900" max="2025">
+                <div id="anneeInscriptionError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="voie_acces" class="form-label">Voie d'accès</label>
@@ -108,6 +147,7 @@
                     <option value="contrat_professionnalisation">Contrat de professionnalisation</option>
                     <option value="candidat_libre">Candidat libre</option>
                 </select>
+                <div id="voieAccesError" class="text-danger"></div>
             </div>
             <!-- Situation et expérience -->
             <div class="mb-3">
@@ -118,150 +158,166 @@
                     <option value="en_formation">En formation</option>
                     <option value="inactif">Inactif</option>
                 </select>
+                <div id="situationAvantCursusError" class="text-danger"></div>
             </div>
             <div id="experienceFields">
                 <div class="mb-3">
                     <label for="dernier_metier" class="form-label">Dernier métier exercé avant le cursus certifiant</label>
                     <input type="text" class="form-control" id="dernier_metier">
+                    <div id="dernierMetierError" class="text-danger"></div>
                 </div>
                 <div class="mb-3">
                     <label for="nom_entreprise" class="form-label">Nom de l'entreprise</label>
                     <input type="text" class="form-control" id="nom_entreprise">
+                    <div id="nomEntrepriseError" class="text-danger"></div>
                 </div>
                 <div class="mb-3">
                     <label for="duree_experience" class="form-label">Durée de l'expérience professionnelle (en années)</label>
                     <input type="number" class="form-control" id="duree_experience" min="0">
+                    <div id="dureeExperienceError" class="text-danger"></div>
                 </div>
             </div>
             <!-- Coordonnées -->
             <div class="mb-3">
                 <label for="tel_mobile" class="form-label">Téléphone portable personnel</label>
                 <input type="tel" class="form-control" id="tel_mobile" required pattern="[0-9]{10}" title="Entrez un numéro de téléphone à 10 chiffres">
+                <div id="telMobileError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Adresse mail personnelle</label>
                 <input type="email" class="form-control" id="email" required>
+                <div id="emailError" class="text-danger"></div>
             </div>
             <button type="submit" class="btn btn-primary">Soumettre</button>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.getElementById("situation_avant_cursus").addEventListener("change", function() {
-            const experienceFields = document.getElementById("experienceFields");
-            if (this.value === "actif_occupe_hors_alternance") {
-                experienceFields.style.display = "block";
-                document.getElementById("dernier_metier").required = true;
-                document.getElementById("nom_entreprise").required = true;
-                document.getElementById("duree_experience").required = true;
-            } else {
-                experienceFields.style.display = "none";
-                document.getElementById("dernier_metier").required = false;
-                document.getElementById("nom_entreprise").required = false;
-                document.getElementById("duree_experience").required = false;
-            }
-        });
-
-        document.getElementById("eisiForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-
-            const errorAlert = document.getElementById("errorAlert");
-            errorAlert.style.display = "none";
-
-            const requiredFields = {
-                id_candidat: document.getElementById("id_candidat").value.trim(),
-                identifiant_candidat: document.getElementById("identifiant_candidat").value.trim(),
-                campus: document.getElementById("campus").value,
-                civilite: document.getElementById("civilite").value,
-                nom: document.getElementById("nom").value.trim(),
-                prenom: document.getElementById("prenom").value.trim(),
-                date_naissance: document.getElementById("date_naissance").value,
-                code_postal_naissance: document.getElementById("code_postal_naissance").value.trim(),
-                lieu_naissance: document.getElementById("lieu_naissance").value.trim(),
-                pays_naissance: document.getElementById("pays_naissance").value.trim(),
-                nationalite: document.getElementById("nationalite").value.trim(),
-                dernier_diplome: document.getElementById("dernier_diplome").value.trim(),
-                niveau_diplome: document.getElementById("niveau_diplome").value.trim(),
-                annee_diplome: document.getElementById("annee_diplome").value,
-                decision_jury: document.getElementById("decision_jury").value,
-                annee_inscription: document.getElementById("annee_inscription").value,
-                voie_acces: document.getElementById("voie_acces").value,
-                situation_avant_cursus: document.getElementById("situation_avant_cursus").value,
-                tel_mobile: document.getElementById("tel_mobile").value.trim(),
-                email: document.getElementById("email").value.trim()
-            };
-
-            for (let field in requiredFields) {
-                if (!requiredFields[field] || requiredFields[field] === "") {
-                    errorAlert.textContent = `Le champ "${field.replace(/_/g, ' ')}" est requis et ne peut pas être vide.`;
-                    errorAlert.style.display = "block";
-                    return;
-                }
-            }
-
-            const formData = {
-                id_candidat: requiredFields.id_candidat,
-                identifiant_candidat: requiredFields.identifiant_candidat,
-                campus: requiredFields.campus,
-                civilite: requiredFields.civilite,
-                nom: requiredFields.nom,
-                prenom: requiredFields.prenom,
-                date_naissance: requiredFields.date_naissance,
-                code_postal_naissance: requiredFields.code_postal_naissance,
-                lieu_naissance: requiredFields.lieu_naissance,
-                pays_naissance: requiredFields.pays_naissance,
-                nationalite: requiredFields.nationalite,
-                dernier_diplome: requiredFields.dernier_diplome,
-                niveau_diplome: requiredFields.niveau_diplome,
-                annee_diplome: parseInt(requiredFields.annee_diplome),
-                decision_jury: requiredFields.decision_jury,
-                annee_inscription: parseInt(requiredFields.annee_inscription),
-                voie_acces: requiredFields.voie_acces,
-                situation_avant_cursus: requiredFields.situation_avant_cursus,
-                dernier_metier: document.getElementById("dernier_metier").value.trim() || null,
-                nom_entreprise: document.getElementById("nom_entreprise").value.trim() || null,
-                duree_experience: document.getElementById("duree_experience").value ? parseInt(document.getElementById("duree_experience").value) : null,
-                tel_mobile: requiredFields.tel_mobile,
-                email: requiredFields.email
-            };
-
-            if (isNaN(formData.annee_diplome) || formData.annee_diplome < 1900 || formData.annee_diplome > 2025) {
-                errorAlert.textContent = "L'année du diplôme doit être un nombre valide entre 1900 et 2025.";
-                errorAlert.style.display = "block";
-                return;
-            }
-            if (isNaN(formData.annee_inscription) || formData.annee_inscription < 1900 || formData.annee_inscription > 2025) {
-                errorAlert.textContent = "L'année d'inscription doit être un nombre valide entre 1900 et 2025.";
-                errorAlert.style.display = "block";
-                return;
-            }
-            if (formData.duree_experience !== null && (isNaN(formData.duree_experience) || formData.duree_experience < 0)) {
-                errorAlert.textContent = "La durée d'expérience doit être un nombre valide et positif.";
-                errorAlert.style.display = "block";
-                return;
-            }
-
-            console.log("Données envoyées à /submit-eisi :", formData);
-            try {
-                const response = await fetch("/submit-eisi", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(formData)
-                });
-                const data = await response.json();
-                console.log("Réponse de /submit-eisi :", response.status, data);
-                if (response.ok) {
-                    alert(data.message);
-                    window.location.href = data.redirect;
+        $(document).ready(function() {
+            console.log("Document ready");
+            $("#situation_avant_cursus").change(function() {
+                const experienceFields = $("#experienceFields");
+                if ($(this).val() === "actif_occupe_hors_alternance") {
+                    experienceFields.show();
+                    $("#dernier_metier").prop("required", true);
+                    $("#nom_entreprise").prop("required", true);
+                    $("#duree_experience").prop("required", true);
                 } else {
-                    errorAlert.textContent = "Erreur : " + (data.detail || "Une erreur est survenue.");
-                    errorAlert.style.display = "block";
+                    experienceFields.hide();
+                    $("#dernier_metier").prop("required", false);
+                    $("#nom_entreprise").prop("required", false);
+                    $("#duree_experience").prop("required", false);
                 }
-            } catch (err) {
-                console.error("Erreur réseau ou CORS :", err);
-                errorAlert.textContent = "Erreur lors de la soumission : " + (err.message || err);
-                errorAlert.style.display = "block";
-            }
+            });
+
+            $("#eisiForm").submit(function(e) {
+                e.preventDefault();
+                console.log("Submit triggered, error div updated");
+                console.log("Error div content:", $("#idCandidatError").html());
+
+                // Vérification de tous les champs requis
+                if ($("#id_candidat").val() === "") {
+                    $("#idCandidatError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#idCandidatError").removeClass("visible").text("");
+                }
+                if ($("#identifiant_candidat").val() === "") {
+                    $("#identifiantCandidatError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#identifiantCandidatError").removeClass("visible").text("");
+                }
+                if ($("#campus").val() === "") {
+                    $("#campusError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#campusError").removeClass("visible").text("");
+                }
+                if ($("#civilite").val() === "") {
+                    $("#civiliteError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#civiliteError").removeClass("visible").text("");
+                }
+                if ($("#nom").val() === "") {
+                    $("#nomError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#nomError").removeClass("visible").text("");
+                }
+                if ($("#prenom").val() === "") {
+                    $("#prenomError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#prenomError").removeClass("visible").text("");
+                }
+                if ($("#date_naissance").val() === "") {
+                    $("#dateNaissanceError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#dateNaissanceError").removeClass("visible").text("");
+                }
+                if ($("#code_postal_naissance").val() === "") {
+                    $("#codePostalNaissanceError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#codePostalNaissanceError").removeClass("visible").text("");
+                }
+                if ($("#lieu_naissance").val() === "") {
+                    $("#lieuNaissanceError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#lieuNaissanceError").removeClass("visible").text("");
+                }
+                if ($("#pays_naissance").val() === "") {
+                    $("#paysNaissanceError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#paysNaissanceError").removeClass("visible").text("");
+                }
+                if ($("#nationalite").val() === "") {
+                    $("#nationaliteError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#nationaliteError").removeClass("visible").text("");
+                }
+                if ($("#dernier_diplome").val() === "") {
+                    $("#dernierDiplomeError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#dernierDiplomeError").removeClass("visible").text("");
+                }
+                if ($("#niveau_diplome").val() === "") {
+                    $("#niveauDiplomeError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#niveauDiplomeError").removeClass("visible").text("");
+                }
+                if ($("#annee_diplome").val() === "") {
+                    $("#anneeDiplomeError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#anneeDiplomeError").removeClass("visible").text("");
+                }
+                if ($("#decision_jury").val() === "") {
+                    $("#decisionJuryError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#decisionJuryError").removeClass("visible").text("");
+                }
+                if ($("#annee_inscription").val() === "") {
+                    $("#anneeInscriptionError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#anneeInscriptionError").removeClass("visible").text("");
+                }
+                if ($("#voie_acces").val() === "") {
+                    $("#voieAccesError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#voieAccesError").removeClass("visible").text("");
+                }
+                if ($("#situation_avant_cursus").val() === "") {
+                    $("#situationAvantCursusError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#situationAvantCursusError").removeClass("visible").text("");
+                }
+                if ($("#tel_mobile").val() === "") {
+                    $("#telMobileError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#telMobileError").removeClass("visible").text("");
+                }
+                if ($("#email").val() === "") {
+                    $("#emailError").text("Veuillez remplir ce champ").addClass("visible");
+                } else {
+                    $("#emailError").removeClass("visible").text("");
+                }
+            });
         });
     </script>
 </body>

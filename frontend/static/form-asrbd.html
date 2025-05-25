@@ -5,11 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire ASRBD - EPSI/WIS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .alert { display: none; }
+        .text-danger {
+            display: none;
+            color: #dc3545 !important;
+            font-size: 0.875rem !important;
+            margin-top: 0.25rem !important;
+            line-height: 1.2 !important;
+        }
+        #asrbdForm .text-danger.visible {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 1000 !important;
+            min-height: 1rem !important;
+            height: auto !important;
+            overflow: visible !important;
+            background-color: rgba(255, 0, 0, 0.1) !important;
+        }
+        #asrbdForm .mb-3 {
+            overflow: visible !important;
+            height: auto !important;
+            min-height: 2rem !important;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
         <h2>Formulaire ASRBD</h2>
-        <form id="asrbdForm">
+        <div id="errorAlert" class="alert alert-danger" role="alert"></div>
+        <form id="asrbdForm" novalidate>
             <!-- Informations personnelles -->
             <div class="mb-3">
                 <label for="civilite" class="form-label">Civilité</label>
@@ -18,65 +45,80 @@
                     <option value="Madame">Madame</option>
                     <option value="Autre">Autre</option>
                 </select>
+                <div id="civiliteError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="nom" class="form-label">Nom</label>
                 <input type="text" class="form-control" id="nom" required>
+                <div id="nomError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="prenom" class="form-label">Prénom</label>
                 <input type="text" class="form-control" id="prenom" required>
+                <div id="prenomError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="dateNaissance" class="form-label">Date de naissance</label>
                 <input type="date" class="form-control" id="dateNaissance" required>
+                <div id="dateNaissanceError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="lieuNaissance" class="form-label">Lieu de naissance</label>
                 <input type="text" class="form-control" id="lieuNaissance" required>
+                <div id="lieuNaissanceError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="departementNaissance" class="form-label">Département de naissance</label>
                 <input type="text" class="form-control" id="departementNaissance" required>
+                <div id="departementNaissanceError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="pays" class="form-label">Pays</label>
                 <input type="text" class="form-control" id="pays" required>
+                <div id="paysError" class="text-danger"></div>
             </div>
             <!-- Adresse -->
             <div class="mb-3">
                 <label for="adresse" class="form-label">Adresse</label>
                 <input type="text" class="form-control" id="adresse" required>
+                <div id="adresseError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="cp" class="form-label">CP</label>
                 <input type="text" class="form-control" id="cp" required>
+                <div id="cpError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="ville" class="form-label">Ville</label>
                 <input type="text" class="form-control" id="ville" required>
+                <div id="villeError" class="text-danger"></div>
             </div>
             <!-- Coordonnées -->
             <div class="mb-3">
                 <label for="telFixe" class="form-label">Tel fixe</label>
                 <input type="tel" class="form-control" id="telFixe">
+                <div id="telFixeError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="telMobile" class="form-label">Tel mobile</label>
                 <input type="tel" class="form-control" id="telMobile" required>
+                <div id="telMobileError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Adresse mail</label>
                 <input type="email" class="form-control" id="email" required>
+                <div id="emailError" class="text-danger"></div>
             </div>
             <!-- Formation et expérience -->
             <div class="mb-3">
                 <label for="diplome" class="form-label">Diplôme ou niveau d’études (domaine)</label>
                 <input type="text" class="form-control" id="diplome" required>
+                <div id="diplomeError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="experience" class="form-label">Expérience professionnelle (métier et durée)</label>
                 <textarea class="form-control" id="experience" required></textarea>
+                <div id="experienceError" class="text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="financement" class="form-label">Financement du parcours de formation</label>
@@ -87,49 +129,143 @@
                     <option value="contrat_professionnalisation">Contrat de professionnalisation</option>
                     <option value="candidat_libre">Candidat libre</option>
                 </select>
+                <div id="financementError" class="text-danger"></div>
             </div>
             <button type="submit" class="btn btn-primary">Soumettre</button>
         </form>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById("asrbdForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const formData = {
-                civilite: document.getElementById("civilite").value,
-                nom: document.getElementById("nom").value,
-                prenom: document.getElementById("prenom").value,
-                date_naissance: document.getElementById("dateNaissance").value,
-                lieu_naissance: document.getElementById("lieuNaissance").value,
-                departement_naissance: document.getElementById("departementNaissance").value,
-                pays: document.getElementById("pays").value,
-                adresse: document.getElementById("adresse").value,
-                cp: document.getElementById("cp").value,
-                ville: document.getElementById("ville").value,
-                tel_fixe: document.getElementById("telFixe").value || null,
-                tel_mobile: document.getElementById("telMobile").value,
-                email: document.getElementById("email").value,
-                diplome: document.getElementById("diplome").value,
-                experience: document.getElementById("experience").value,
-                financement: document.getElementById("financement").value
-            };
-            try {
-                const response = await fetch("/submit-asrbd", {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(formData)
+        $(document).ready(function() {
+            $("#asrbdForm").submit(function(e) {
+                e.preventDefault();
+
+                $("#errorAlert").hide().text("");
+
+                // Réinitialiser les messages d'erreur
+                const errorElements = [
+                    "civiliteError", "nomError", "prenomError", "dateNaissanceError",
+                    "lieuNaissanceError", "departementNaissanceError", "paysError",
+                    "adresseError", "cpError", "villeError", "telFixeError",
+                    "telMobileError", "emailError", "diplomeError", "experienceError",
+                    "financementError"
+                ];
+                errorElements.forEach(id => {
+                    $("#" + id).removeClass("visible").text("");
                 });
-                const data = await response.json();
-                if (response.ok) {
-                    alert(data.message);
-                    window.location.href = data.redirect; // Redirection vers login.html
-                } else {
-                    alert("Erreur : " + data.detail);
+
+                let hasError = false;
+
+                // Validation des champs
+                const formData = {
+                    civilite: $("#civilite").val(),
+                    nom: $("#nom").val().trim(),
+                    prenom: $("#prenom").val().trim(),
+                    date_naissance: $("#dateNaissance").val(),
+                    lieu_naissance: $("#lieuNaissance").val().trim(),
+                    departement_naissance: $("#departementNaissance").val().trim(),
+                    pays: $("#pays").val().trim(),
+                    adresse: $("#adresse").val().trim(),
+                    cp: $("#cp").val().trim(),
+                    ville: $("#ville").val().trim(),
+                    tel_fixe: $("#telFixe").val().trim() || null,
+                    tel_mobile: $("#telMobile").val().trim(),
+                    email: $("#email").val().trim(),
+                    diplome: $("#diplome").val().trim(),
+                    experience: $("#experience").val().trim(),
+                    financement: $("#financement").val()
+                };
+
+                // Validation champ par champ
+                if (!formData.civilite) {
+                    $("#civiliteError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
                 }
-            } catch (err) {
-                console.error("Erreur réseau ou CORS :", err);
-                alert("Erreur lors de la soumission : " + err.message);
-            }
+                if (!formData.nom) {
+                    $("#nomError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.prenom) {
+                    $("#prenomError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.date_naissance) {
+                    $("#dateNaissanceError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.lieu_naissance) {
+                    $("#lieuNaissanceError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.departement_naissance) {
+                    $("#departementNaissanceError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.pays) {
+                    $("#paysError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.adresse) {
+                    $("#adresseError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.cp) {
+                    $("#cpError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.ville) {
+                    $("#villeError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (formData.tel_fixe && !/^[0-9]{10}$/.test(formData.tel_fixe)) {
+                    $("#telFixeError").text("Entrez un numéro à 10 chiffres").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.tel_mobile || !/^[0-9]{10}$/.test(formData.tel_mobile)) {
+                    $("#telMobileError").text("Veuillez remplir ce champ avec un numéro à 10 chiffres").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+                    $("#emailError").text("Veuillez remplir ce champ avec une adresse e-mail valide").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.diplome) {
+                    $("#diplomeError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.experience) {
+                    $("#experienceError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+                if (!formData.financement) {
+                    $("#financementError").text("Veuillez remplir ce champ").addClass("visible");
+                    hasError = true;
+                }
+
+                if (hasError) {
+                    $("#errorAlert").text("Veuillez corriger les erreurs ci-dessous.").show();
+                    return;
+                }
+
+                $.ajax({
+                    url: "/submit-asrbd",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(formData),
+                    success: function(data) {
+                        alert(data.message);
+                        window.location.href = data.redirect;
+                    },
+                    error: function(xhr) {
+                        let errorMsg = "Une erreur est survenue.";
+                        if (xhr.responseJSON && xhr.responseJSON.detail) {
+                            errorMsg = xhr.responseJSON.detail;
+                        }
+                        $("#errorAlert").text("Erreur : " + errorMsg).show();
+                    }
+                });
+            });
         });
     </script>
 </body>
